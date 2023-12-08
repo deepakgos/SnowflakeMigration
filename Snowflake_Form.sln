@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snowflake_Form", "Snowflake_Form\Snowflake_Form.csproj", "{B63F3D4C-9ABE-4B49-9E48-2B4D6DD8DCBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B63F3D4C-9ABE-4B49-9E48-2B4D6DD8DCBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B63F3D4C-9ABE-4B49-9E48-2B4D6DD8DCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B63F3D4C-9ABE-4B49-9E48-2B4D6DD8DCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B63F3D4C-9ABE-4B49-9E48-2B4D6DD8DCBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {24931AA4-52B6-4933-BDA6-C68C212A592D}
+	EndGlobalSection
+EndGlobal
