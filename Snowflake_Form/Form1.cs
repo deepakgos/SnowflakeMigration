@@ -82,7 +82,6 @@ namespace Snowflake_Form
                 {
                     MessageBox.Show("Connection successful!");
                     ExecuteQuery();
-                    //ExecuteScript();
                 }
                 else
                 {
@@ -96,21 +95,6 @@ namespace Snowflake_Form
             finally
             {
                 //connection?.Close();
-            }
-        }
-
-        private void ExecuteScript()
-        {
-            using (IDbCommand command = connection.CreateCommand())
-            {
-                command.CommandText = "SELECT GET_DDL('DATABASE', 'SNOW_TEST') AS schema_ddl;";
-                using(IDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        label_script.Text = reader.GetString(0); // Display query result in the console
-                    }
-                }
             }
         }
 

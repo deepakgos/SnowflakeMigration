@@ -34,6 +34,8 @@ namespace Snowflake_Form
             this.databaseTreeView = new System.Windows.Forms.TreeView();
             this.detailedDataGridView = new System.Windows.Forms.DataGridView();
             this.Go_back = new System.Windows.Forms.Button();
+            this.Total_Size_DB = new System.Windows.Forms.Label();
+            this.DB_Size = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.detailedDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,12 +61,12 @@ namespace Snowflake_Form
             this.detailedDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.detailedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.detailedDataGridView.Enabled = false;
-            this.detailedDataGridView.Location = new System.Drawing.Point(160, 0);
+            this.detailedDataGridView.Location = new System.Drawing.Point(158, 78);
             this.detailedDataGridView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailedDataGridView.Name = "detailedDataGridView";
             this.detailedDataGridView.RowHeadersWidth = 48;
             this.detailedDataGridView.RowTemplate.Height = 24;
-            this.detailedDataGridView.Size = new System.Drawing.Size(644, 242);
+            this.detailedDataGridView.Size = new System.Drawing.Size(652, 242);
             this.detailedDataGridView.TabIndex = 1;
             this.detailedDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.detailedDataGridView_CellContentClick);
             // 
@@ -83,11 +85,33 @@ namespace Snowflake_Form
             this.Go_back.UseVisualStyleBackColor = false;
             this.Go_back.Click += new System.EventHandler(this.Go_back_Click);
             // 
+            // Total_Size_DB
+            // 
+            this.Total_Size_DB.AutoSize = true;
+            this.Total_Size_DB.Location = new System.Drawing.Point(178, 22);
+            this.Total_Size_DB.Name = "Total_Size_DB";
+            this.Total_Size_DB.Size = new System.Drawing.Size(44, 16);
+            this.Total_Size_DB.TabIndex = 3;
+            this.Total_Size_DB.Text = "label1";
+            this.Total_Size_DB.Visible = false;
+            // 
+            // DB_Size
+            // 
+            this.DB_Size.AutoSize = true;
+            this.DB_Size.Location = new System.Drawing.Point(584, 22);
+            this.DB_Size.Name = "DB_Size";
+            this.DB_Size.Size = new System.Drawing.Size(44, 16);
+            this.DB_Size.TabIndex = 4;
+            this.DB_Size.Text = "label2";
+            this.DB_Size.Visible = false;
+            // 
             // ShowObjects
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(810, 450);
+            this.Controls.Add(this.DB_Size);
+            this.Controls.Add(this.Total_Size_DB);
             this.Controls.Add(this.Go_back);
             this.Controls.Add(this.detailedDataGridView);
             this.Controls.Add(this.databaseTreeView);
@@ -98,6 +122,7 @@ namespace Snowflake_Form
             this.Load += new System.EventHandler(this.ShowObjects_Load);
             ((System.ComponentModel.ISupportInitialize)(this.detailedDataGridView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -111,5 +136,7 @@ namespace Snowflake_Form
         private System.Windows.Forms.TreeView databaseTreeView;
         private System.Windows.Forms.DataGridView detailedDataGridView;
         private System.Windows.Forms.Button Go_back;
+        private Label Total_Size_DB;
+        private Label DB_Size;
     }
 }
