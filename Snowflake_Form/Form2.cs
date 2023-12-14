@@ -16,7 +16,8 @@ namespace Snowflake_Form
     public partial class Show_Snowflake_Objects : Form
     {
         private SnowflakeDbConnection connection;
-        
+        public int replacementCounter = 0;
+
         public Show_Snowflake_Objects(DataTable dataTable, SnowflakeDbConnection connection)
         {
 
@@ -284,6 +285,9 @@ namespace Snowflake_Form
 
                     // Display a single message with all the success messages
                     MessageBox.Show(string.Join(Environment.NewLine, successMessages));
+                    Console.WriteLine($"Total count {replacementCounter}");
+                    Recommendation f4 = new Recommendation(replacementCounter);
+                    f4.Show();
                 }
                 else
                 {
@@ -332,6 +336,7 @@ namespace Snowflake_Form
             {
                 // Read the Snowflake SQL script from the input file
                 string snowflakeSql;
+                //int replacementCounter = 0;
                 using (StreamReader snowflakeSqlFile = new StreamReader(inputFilePath))
                 {
                     snowflakeSql = snowflakeSqlFile.ReadToEnd();
@@ -351,32 +356,126 @@ namespace Snowflake_Form
                 //azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE TRANSIENT TABLE", "GO\nCREATE TABLE");
 
                 // Replace Snowflake specific syntax with Azure Synapse specific syntax
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE TABLE", "GO\nCREATE TABLE");
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE TABLE", match =>
+                {
+                    replacementCounter++;
+                    return "GO\nCREATE TABLE";
+                });
                 //azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE TRANSIENT TABLE (\w+)", "GO\nCREATE TABLE #\\1");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE DATABASE (\w+);", " ");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE SCHEMA (\w+);", "CREATE SCHEMA $1");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE VIEW", "GO\nCREATE VIEW");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE FUNCTION", "GO\nCREATE FUNCTION");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE PROCEDURE", "GO\nCREATE PROCEDURE");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"NUMBER\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)", "NUMERIC($1,$2)");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"FLOAT", "REAL");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CONSTRAINT \w+", " ");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)PRIMARY KEY\s*\(([^)]+)\)", " ");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)UNIQUE\s*\(([^)]+)\),", "");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)UNIQUE\s*\(([^)]+)\)", "");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"COMMENT\s*=\s*'([^']+)\'", "");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)OBJECT", "NVARCHAR");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)VARIANT", "NVARCHAR");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)ARRAY", "NVARCHAR");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP_NTZ", "DATETIME2");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP", "DATETIME2");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP_ITZ", "DATETIMEOFFSET");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP_TZ", "DATETIMEOFFSET");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)STRING", "VARCHAR");
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TEXT", "VARCHAR");
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE DATABASE (\w+);", match =>
+                {
+                    replacementCounter++;
+                    return " ";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE SCHEMA (\w+);", match =>
+                {
+                    replacementCounter++;
+                    return "CREATE SCHEMA $1";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE VIEW", Match =>
+                {
+                    replacementCounter++;
+                    return "GO\nCREATE VIEW";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE FUNCTION", match =>
+                {
+                    replacementCounter++;
+                    return "GO\nCREATE FUNCTION";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CREATE OR REPLACE PROCEDURE", match =>
+                {
+                    replacementCounter++;
+                    return "GO\nCREATE PROCEDURE";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"NUMBER\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)", match=>
+                {
+                    replacementCounter++;
+                    return "NUMERIC($1,$2)";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"FLOAT", match =>
+                {
+                    replacementCounter++;
+                    return "REAL";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)CONSTRAINT \w+", match =>
+                {
+                    replacementCounter++;
+                    return " ";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)PRIMARY KEY\s*\(([^)]+)\)", match =>
+                {
+                    replacementCounter++;
+                    return " ";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)UNIQUE\s*\(([^)]+)\),", match =>
+                {
+                    replacementCounter++;
+                    return "";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)UNIQUE\s*\(([^)]+)\)", match =>
+                {
+                    replacementCounter++;
+                    return "";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"COMMENT\s*=\s*'([^']+)\'",match =>
+                {
+                    replacementCounter++;
+                    return "";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)OBJECT", match =>
+                {
+                    replacementCounter++;
+                    return "NVARCHAR";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)VARIANT", match =>
+                {
+                    replacementCounter++;
+                    return "NVARCHAR";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)ARRAY", match =>
+                {
+                    replacementCounter++;
+                    return "NVARCHAR";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP_NTZ", match =>
+                {
+                    replacementCounter++;
+                    return "DATETIME2";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP", match =>
+                {
+                    replacementCounter++;
+                    return "DATETIME2";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP_ITZ", match =>
+                {
+                    replacementCounter++;
+                    return "DATETIMEOFFSET";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TIMESTAMP_TZ", match =>
+                {
+                    replacementCounter++;
+                    return "DATETIMEOFFSET";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)STRING", match =>
+                {
+                    replacementCounter++;
+                    return "VARCHAR";
+                });
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"(?i)TEXT", match =>
+                {
+                    replacementCounter++;
+                    return "VARCHAR";
+                });
 
                 // Remove trailing comma after the last column
-                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"\s*,\s*\);", "\n);");
+                azure_synapse_sql = Regex.Replace(azure_synapse_sql, @"\s*,\s*\);", match =>
+                {
+                    replacementCounter++;
+                    return "\n);";
+                });
+
+                Console.WriteLine($"Total Replacements {DataBase}: {replacementCounter}");
 
                 // Write the converted script to the output file
                 using (StreamWriter synapseSqlFile = new StreamWriter(outputFilePath))
